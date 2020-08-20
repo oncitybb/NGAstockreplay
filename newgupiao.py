@@ -15,20 +15,23 @@ pushniu = 0
 qiaonewmessage = 'Start Running'
 henewmessage = 'Start Running'
 niunewmessage = 'Start Running'
-qiaobangzhu = 'https://ngabbs.com/thread.php?searchpost=1&authorid=60002731' #乔帮主的回复页面
-heda = 'https://ngabbs.com/thread.php?searchpost=1&authorid=5254815' #禾戈的回复页面
-niu = 'https://ngabbs.com/thread.php?searchpost=1&authorid=4627122' #牛大的回复页面
+qiaobangzhu = 'https://ngabbs.com/thread.php?searchpost=1&authorid=60002731'
+#乔帮主的回复页面
+heda = 'https://ngabbs.com/thread.php?searchpost=1&authorid=5254815'
+#禾戈的回复页面
+niu = 'https://ngabbs.com/thread.php?searchpost=1&authorid=4627122'
+#牛大的回复页面
 
 def catchnew(url): 
     newmessage = 'Start Running'
     # 设定header
+    #填入自己NGA登陆后的cookies，否则无法查看他人回复
     headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36',
             'Host': 'ngabbs.com',
             'Connection':'keep-alive',
             'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            #填入自己NGA登陆后的cookies，否则无法查看他人回复
-            'cookie':'填入自己NGA登陆后的cookies，否则无法查看他人回复'
+            'cookie':'等待填入'
     }
     # 获取url的回复，然后把得到的所有回复过滤后return出去
     while True:
@@ -63,16 +66,15 @@ def pushmessage(message, urll):
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
     }
     #填入自己在wxpusher的uid
-    uids='输入wxpusher的uid' 
+    uids = '等待填入' 
     #填入自己在wxpusher的token
-    token = '输入wxpusher的token'
+    token = '等待填入'
     url = 'https://wxpusher.zjiecode.com/api/send/message/?appToken=' + token + '&content=' + pushme + '&uid=' + uids + '&url=' + urll
     sleep(0.1)
     # 推送文字到wxpusher
     while True:
         try:
-            response = requests.get(url, headers=headers, timeout=20).text
-            break
+            response = requests.get(url, headers=headers, timeout=10).text
         except requests.exceptions.ConnectionError:
             print('ConnectionError -- 推送新消息的路上出现问题，请等待3秒')
             sleep(3)
@@ -80,8 +82,12 @@ def pushmessage(message, urll):
             print('ChunkedEncodingError -- 推送新消息的路上出现问题，请等待3秒')
             sleep(3)  
         except:
-            print('蜜汁错误 -- 推送新消息的路上出现问题，请等待3秒')
+            print('蜜汁错误 -- 推送新消息的路上出现问题，请等待3秒') 
             sleep(3)
+        if '"success":true' in response:
+            break
+        else:
+            print("wxpusher返回错误")
     sleep(0.5)
 
 def core():
