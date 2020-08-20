@@ -57,7 +57,7 @@ def pushmessage(message, urll):
     pushme = pushme.replace("[/quote]","\n大佬回复： ")
     pushme = re.sub(r'\[.*?\]','',pushme)
     pushme = re.sub(r'(\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2})','',pushme)
-    pushme = pushme.replace("()",'这位精神小伙咨询')
+    pushme = pushme.replace("()",'这位小伙咨询')
     pushme = pushme.replace("Reply Post by ",'')
     headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
@@ -71,7 +71,7 @@ def pushmessage(message, urll):
     # 推送文字到wxpusher
     while True:
         try:
-            response = requests.get(url, headers=headers, timeout=10).text
+            response = requests.get(url, headers=headers, timeout=20).text
             break
         except requests.exceptions.ConnectionError:
             print('ConnectionError -- 推送新消息的路上出现问题，请等待3秒')
@@ -127,11 +127,10 @@ def core():
 
 if __name__ == '__main__':
     running = False
-    lastprinttime = 0
-    overthirdtyminute = False
     while True:
         current_time = datetime.now().time()
-        if DAY_START <= current_time <= DAY_END:
+        #检测现在是否工作时间，第一个是检测时间是否在开启区间，第二个是检测是否工作日。如果开始工作会推送一条开机的推送，清零当天推送数量。每30秒运作一次
+        if (DAY_START <= current_time <= DAY_END) and (datetime.now().weekday() <=4 ):
             if not running:
                 pushmessage('开工！','https://www.google.com')
                 print("开机")
@@ -140,14 +139,12 @@ if __name__ == '__main__':
                 pushhe = 0
                 pushniu = 0
             core()
-            sleep(30)
+            sleep(15)
         else:
+            #如果刚结束运行会推送一条下班的推送。每30分钟推送一次，可以检测软件是否运行。
             if running:
                 pushmessage('下班！','https://www.google.com')
                 print("下班")
                 running = False
-            if current_time.hour != lastprinttime or (not overthirdtyminute and current_time.minute >= 30):
-                lastprinttime = current_time.hour
-                overthirdtyminute = not overthirdtyminute
-                print("现在是" + str(current_time.hour) +"点" + current_time.strftime("%M") + "分, 程序运作ing, " + u'当前进程的内存使用：%.1f MB' % (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024) )
-            sleep(600)
+            print("现在是周"+ str((datetime.now().weekday() + 1)) +"的" + str(current_time.hour) +"点" + current_time.strftime("%M") + "分, 程序运作ing, " + u'当前进程的内存使用：%.1f MB' % (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024) )
+            sleep(1800)
