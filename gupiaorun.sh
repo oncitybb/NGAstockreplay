@@ -20,7 +20,7 @@ fi
 FOLDER=$(dirname $(readlink -f "$0"))
 PYTHON_FILE_NUMBER=$(find -name "*.sh" | wc -l)
 PYTHONFILE=$(find -name "*.sh")
-findpython = $(ps aux|grep "gp.py" |grep -v "grep"|wc -l)
+findpython=$(ps aux|grep "gp.py" |grep -v "grep"|wc -l)
 if [$findpython -eq 0]
 then
     if [$PYTHON_FILE_NUMBER -ne 1]
