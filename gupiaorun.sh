@@ -27,7 +27,7 @@ PYTHON_FILE_NUMBER=$(find $FOLDER -type f -name "*.py" | wc -l)
 if [ $PYTHON_FILE_NUMBER -eq 0 ]
 then
     echo "运行脚本文件夹里没有python文件,自动下载python文件到当前文件夹"
-    wget -P $FOLDER https://raw.githubusercontent.com/oncitybb/NGAstockreplay/master/newgupiao.py
+    wget -P $FOLDER https://raw.githubusercontent.com/oncitybb/NGAstockreply/master/newgupiao.py
     PYTHON_FILE_NUMBER=$(find $FOLDER -type f -name "*.py" | wc -l)
     if [ $PYTHON_FILE_NUMBER -eq 1 ]
     then
@@ -35,7 +35,7 @@ then
         exit 0
     else
         echo "下载失败，换到gitee下载"
-        wget -P $FOLDER https://gitee.com/Sunuk/NGAstockreplay/raw/master/newgupiao.py
+        wget -P $FOLDER https://gitee.com/Sunuk/NGAstockreply/raw/master/newgupiao.py
         PYTHON_FILE_NUMBER=$(find $FOLDER -type f -name "*.py" | wc -l)
         if [ $PYTHON_FILE_NUMBER -eq 1 ]
             then
@@ -43,8 +43,8 @@ then
                 exit 0
             else
                 echo "下载失败，请手动下载"
-                echo "github下载：wget https://raw.githubusercontent.com/oncitybb/NGAstockreplay/master/newgupiao.py"
-                echo "gitee下载：wget https://gitee.com/Sunuk/NGAstockreplay/raw/master/newgupiao.py"
+                echo "github下载：wget https://raw.githubusercontent.com/oncitybb/NGAstockreply/master/newgupiao.py"
+                echo "gitee下载：wget https://gitee.com/Sunuk/NGAstockreply/raw/master/newgupiao.py"
                 exit 0
             fi
     fi
