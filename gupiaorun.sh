@@ -1,12 +1,12 @@
 #!/bin/bash
-if python3 -c "import $1" >/dev/null 2>&1
+if python3 -c "import psutil" >/dev/null 2>&1 && python3 -c "import requests" >/dev/null 2>&1
 then
     PYTHON3ADDRESS=$(which python3)
 else
     echo "没有Python3安装，自动安装"
-    sudo apt-get update >> /dev/null 2>&1 && sudo apt-get install python3 python3-pip -y
-    pip3 install requests psutil
-    if python3 -c "import $1" >/dev/null 2>&1
+    sudo apt-get update >> /dev/null 2>&1 && sudo apt-get install python3 python3-pip -y >> /dev/null 2>&1
+    pip3 install requests psutil >> /dev/null 2>&1
+    if python3 -c "import psutil" >/dev/null 2>&1 && python3 -c "import requests" >/dev/null 2>&1
     then
         PYTHON3ADDRESS=$(which python3)
     else
