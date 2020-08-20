@@ -15,6 +15,7 @@ else
         echo "sudo apt-get update && sudo apt-get install python3 python3-pip"
         echo "pip3 install requests psutil"
         exit 0
+    fi
 fi
 FOLDER=$(dirname $(readlink -f "$0"))
 PYTHON_FILE_NUMBER=$(find -name "*.sh" | wc -l)
