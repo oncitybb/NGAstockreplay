@@ -38,5 +38,3 @@ else
     echo "这破软件开着"
     echo `ps aux|grep "gp.py" |grep -v "grep"`
 fi
-
-anzhuang
